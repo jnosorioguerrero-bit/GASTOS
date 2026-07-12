@@ -1,0 +1,29 @@
+{
+  "name": "wallet-tracker",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "server": "node server/index.js",
+    "dev:all": "concurrently -n vite,api -c blue,green \"npm:dev\" \"npm:server\"",
+    "build": "vite build",
+    "preview": "vite preview --host"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "googleapis": "^173.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "recharts": "^2.12.7",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.1",
+    "concurrently": "^10.0.3",
+    "vite": "^5.4.2",
+    "vite-plugin-pwa": "^0.20.5"
+  }
+}
