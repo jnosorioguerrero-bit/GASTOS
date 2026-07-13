@@ -1,6 +1,6 @@
 function extraerGastosBancoChile() {
   var FIREBASE_URL = 'https://gastos-3b09b-default-rtdb.firebaseio.com';
-  var API_KEY = 'AIzaSyDzhwFYm_A4rzTtWvn0CQTNhDjL5gy9S8A';
+  var API_KEY = 'AIzaSyABUk6iEaLAagoeYxkFCSMz_sW7IkWUFdc';
 
   var token = obtenerTokenFirebase_(API_KEY);
 
