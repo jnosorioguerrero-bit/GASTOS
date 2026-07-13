@@ -1,11 +1,14 @@
 function extraerGastosBancoChile() {
   var FIREBASE_URL = 'https://gastos-3b09b-default-rtdb.firebaseio.com';
-  var API_KEY = 'AIzaSyABUk6iEaLAagoeYxkFCSMz_sW7IkWUFdc';
-
-  var token = obtenerTokenFirebase_(API_KEY);
+  // /gastos_banco es de lectura/escritura pública en las reglas de Firebase
+  // (mismo nivel de exposición que ya tenía el Google Sheet) — no requiere
+  // autenticación. La única razón de esto es que Apps Script recibía
+  // "API key not valid" al intentar autenticarse contra Identity Toolkit,
+  // incluso con una clave nueva sin restricciones; el resto de la app
+  // (cc-tracker) sí exige login para todo lo que no sea esta ruta.
 
   // IDs ya guardados (shallow: solo trae las llaves, no los datos completos)
-  var existingResp = UrlFetchApp.fetch(FIREBASE_URL + '/gastos_banco.json?shallow=true&auth=' + token);
+  var existingResp = UrlFetchApp.fetch(FIREBASE_URL + '/gastos_banco.json?shallow=true');
   var existing = JSON.parse(existingResp.getContentText()) || {};
 
   // 2. Buscar correos del Banco de Chile
@@ -54,7 +57,7 @@ function extraerGastosBancoChile() {
         };
 
         // 5. Insertar los datos en Firebase (la llave = messageId evita duplicados)
-        UrlFetchApp.fetch(FIREBASE_URL + '/gastos_banco/' + messageId + '.json?auth=' + token, {
+        UrlFetchApp.fetch(FIREBASE_URL + '/gastos_banco/' + messageId + '.json', {
           method: 'put',
           contentType: 'application/json',
           payload: JSON.stringify(payload)
@@ -62,13 +65,4 @@ function extraerGastosBancoChile() {
       }
     }
   }
-}
-
-function obtenerTokenFirebase_(apiKey) {
-  var resp = UrlFetchApp.fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' + apiKey, {
-    method: 'post',
-    contentType: 'application/json',
-    payload: JSON.stringify({ returnSecureToken: true })
-  });
-  return JSON.parse(resp.getContentText()).idToken;
 }
